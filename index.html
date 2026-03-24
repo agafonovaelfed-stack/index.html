@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Программист - Симулятор кодинга на Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 32px;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        .game {
+            background: linear-gradient(145deg, #0a0a1a, #0e0e1a);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5), 0 10px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Шапка с монетами */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px 25px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 60px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .coins {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .coins span:first-child {
+            font-size: 32px;
+        }
+
+        .code-count {
+            font-size: 18px;
+            color: #8a8aa8;
+            background: rgba(0,0,0,0.5);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-family: monospace;
+        }
+
+        /* Комната программиста */
+        .room {
+            background: linear-gradient(145deg, #1e2a3a, #0f1722);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            border: 1px solid #2d3e50;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .programmer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .character {
+            font-size: 80px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+            transition: transform 0.1s ease;
+        }
+
+        .character.typing {
+            animation: typeShake 0.1s infinite;
+        }
+
+        @keyframes typeShake {
+            0% { transform: translateX(0px) rotate(0deg); }
+            25% { transform: translateX(2px) rotate(1deg); }
+            75% { transform: translateX(-2px) rotate(-1deg); }
+            100% { transform: translateX(0px) rotate(0deg); }
+        }
+
+        .desk {
+            width: 100%;
+            background: #2c3e2b;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0 15px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            background: linear-gradient(90deg, #3e5a3a, #2a3a28);
+        }
+
+        .keyboard {
+            background: #111;
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 10px;
+            font-family: monospace;
+            color: #6a9955;
+            font-size: 14px;
+            letter-spacing: 2px;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.1), 0 5px 8px rgba(0,0,0,0.5);
+            border-bottom: 2px solid #6a9955;
+        }
+
+        /* Кнопка кодить */
+        .code-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: none;
+            padding: 18px 45px;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            color: white;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 0 #1e7e4a;
+            margin: 20px 0;
+            width: 100%;
+            letter-spacing: 2px;
+        }
+
+        .code-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #1e7e4a;
+        }
+
+        .code-btn:disabled {
+            opacity: 0.6;
+            transform: translateY(0);
+            cursor: not-allowed;
+        }
+
+        /* Лог кода */
+        .code-log {
+            background: #0a0a12;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border: 1px solid #2a2a3a;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .log-entry {
+            padding: 6px 12px;
+            margin: 4px 0;
+            border-radius: 8px;
+            animation: fadeIn 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .log-success {
+            background: rgba(46, 204, 113, 0.2);
+            border-left: 3px solid #2ecc71;
+            color: #a8e6cf;
+        }
+
+        .log-fail {
+            background: rgba(231, 76, 60, 0.2);
+            border-left: 3px solid #e74c3c;
+            color: #e6b3b3;
+        }
+
+        .log-icon {
+            font-size: 16px;
+        }
+
+        .code-snippet {
+            font-family: monospace;
+            background: rgba(0,0,0,0.4);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        /* Счетчик комбо */
+        .combo {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #ffaa44;
+            font-weight: bold;
+        }
+
+        /* Анимация всплывающих монет */
+        .floating-coin {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(1.3);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a2a;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2ecc71;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="game">
+        <div class="stats">
+            <div class="coins">
+                <span>💰</span>
+                <span id="coinCounter">0</span>
+            </div>
+            <div class="code-count">
+                📝 Кода написано: <span id="codeCount">0</span> строк
+            </div>
+        </div>
+
+        <div class="room">
+            <div class="programmer">
+                <div class="character" id="character">🧑‍💻</div>
+                <div class="desk"></div>
+                <div class="keyboard">
+                    ⌨️ print("Hello, World!") ⌨️
+                </div>
+            </div>
+        </div>
+
+        <button class="code-btn" id="codeBtn">💻 КОДИТЬ 💻</button>
+        <div class="combo" id="comboText">✨ Нажми кодить, чтобы начать ✨</div>
+
+        <div class="code-log" id="codeLog">
+            <div class="log-entry" style="background: rgba(100,100,150,0.2);">
+                <span>🤖</span>
+                <span>Терминал готов. Нажми "КОДИТЬ" чтобы писать Python код...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Списки удачных и неудачных Python фрагментов
+    const successfulCode = [
+        { text: 'print("Hello, World!")', desc: 'Успешно вывел приветствие миру! 🌍' },
+        { text: 'def factorial(n): return 1 if n <= 1 else n * factorial(n-1)', desc: 'Рекурсивная функция факториала работает идеально! 🧮' },
+        { text: 'import this', desc: 'Дзен Python загружен! Мудрость получена 📜' },
+        { text: 'list_comprehension = [x**2 for x in range(10)]', desc: 'Генератор списков работает как швейцарские часы! ⚙️' },
+        { text: 'with open("data.txt", "r") as f: data = f.read()', desc: 'Файл успешно прочитан через контекстный менеджер 📁' },
+        { text: 'try: result = 10/2 except ZeroDivisionError: pass', desc: 'Обработка исключений на высоте! 🛡️' },
+        { text: '@dataclass class User: name: str; age: int', desc: 'Декоратор dataclass упростил код! 🎨' },
+        { text: 'filtered = list(filter(lambda x: x > 0, [-1,2,-3,4]))', desc: 'Lambda и filter работают безупречно! 🔍' },
+        { text: 'async def fetch_data(): await asyncio.sleep(1)', desc: 'Асинхронный код выполнен корректно! ⚡' },
+        { text: 'from typing import Optional; name: Optional[str] = None', desc: 'Type hints улучшили читаемость кода! 📝' }
+    ];
+
+    const failedCode = [
+        { text: 'prnt("Hello World")', desc: 'Ошибка: NameError - name "prnt" is not defined ❌' },
+        { text: 'x = 10 / 0', desc: 'ZeroDivisionError: division by zero! 💥' },
+        { text: 'import non_existent_module', desc: 'ModuleNotFoundError: нет такого модуля! 📦' },
+        { text: 'list = [1,2,3]; list[5]', desc: 'IndexError: list index out of range! 🚫' },
+        { text: 'def broken: return', desc: 'SyntaxError: invalid syntax! 🔧' },
+        { text: 'while True: print("бесконечность")', desc: 'Бесконечный цикл! Пришлось остановить Ctrl+C ⏰' },
+        { text: '{"key": "value"}.missing_key', desc: 'KeyError: ключ не найден! 🔑' },
+        { text: 'int("не число")', desc: 'ValueError: invalid literal for int()! 🔢' },
+        { text: 'class MyClass: pass; obj = MyClass(); obj.undefined_method()', desc: 'AttributeError: у объекта нет такого метода! 🎭' },
+        { text: 'list = [1,2,3]; del list; print(list)', desc: 'NameError: переменная удалена из памяти! 💀' }
+    ];
+
+    // Игровое состояние
+    let coins = 0;
+    let totalCodeLines = 0;
+    let isCooldown = false;
+    let combo = 0;
+    let lastResult = null;
+
+    // DOM элементы
+    const coinCounter = document.getElementById('coinCounter');
+    const codeCountSpan = document.getElementById('codeCount');
+    const codeBtn = document.getElementById('codeBtn');
+    const codeLog = document.getElementById('codeLog');
+    const character = document.getElementById('character');
+    const comboText = document.getElementById('comboText');
+
+    // Функция добавления записи в лог
+    function addLogEntry(isSuccess, codeText, message) {
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${isSuccess ? 'log-success' : 'log-fail'}`;
+        
+        const icon = isSuccess ? '✅' : '❌';
+        const codeSnippet = `<span class="code-snippet">${escapeHtml(codeText)}</span>`;
+        
+        entry.innerHTML = `
+            <span class="log-icon">${icon}</span>
+            <span>${codeSnippet}</span>
+            <span>→ ${escapeHtml(message)}</span>
+        `;
+        
+        codeLog.appendChild(entry);
+        entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        // Ограничиваем количество записей в логе (100)
+        while (codeLog.children.length > 100) {
+            codeLog.removeChild(codeLog.firstChild);
+        }
+    }
+
+    // Функция для экранирования HTML
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Анимация всплывающей монетки
+    function showFloatingCoin(x, y) {
+        const coin = document.createElement('div');
+        coin.className = 'floating-coin';
+        coin.innerHTML = '+50 💰';
+        coin.style.left = (x - 20) + 'px';
+        coin.style.top = (y - 40) + 'px';
+        document.body.appendChild(coin);
+        
+        setTimeout(() => {
+            coin.remove();
+        }, 1000);
+    }
+
+    // Анимация набора текста на клавиатуре
+    function startTypingAnimation() {
+        character.classList.add('typing');
+        
+        // Вибрация клавиатуры (если поддерживается)
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+        
+        // Меняем эмодзи на печатающего
+        setTimeout(() => {
+            character.textContent = '⌨️';
+        }, 50);
+        
+        // Возвращаем обратно через 300мс
+        setTimeout(() => {
+            character.classList.remove('typing');
+            character.textContent = '🧑‍💻';
+        }, 300);
+    }
+
+    // Основная функция кодинга
+    async function code() {
+        if (isCooldown) return;
+        
+        isCooldown = true;
+        codeBtn.disabled = true;
+        
+        // Анимация печати
+        startTypingAnimation();
+        
+        // Имитация задержки набора кода (100-250ms)
+        const typingDelay = 100 + Math.random() * 150;
+        await new Promise(resolve => setTimeout(resolve, typingDelay));
+        
+        // Выбираем случайный результат (70% успех, 30% неудача с учетом комбо)
+        let isSuccess;
+        
+        // Базовая вероятность успеха 70%, комбо увеличивает шанс до 85% макс
+        let successChance = 0.7 + (combo * 0.02);
+        successChance = Math.min(successChance, 0.85);
+        
+        if (Math.random() < successChance) {
+            isSuccess = true;
+        } else {
+            isSuccess = false;
+        }
+        
+        // Выбираем случайный код из соответствующего списка
+        let codeItem;
+        if (isSuccess) {
+            codeItem = successfulCode[Math.floor(Math.random() * successfulCode.length)];
+            // Успешный код: +50 монет
+            coins += 50;
+            totalCodeLines++;
+            combo++;
+            
+            // Обновляем комбо текст
+            if (combo >= 3) {
+                comboText.innerHTML = `🔥 КОМБО x${combo}! +50 монет 🔥`;
+                comboText.style.color = '#ffaa44';
+            } else if (combo >= 5) {
+                comboText.innerHTML = `💥 МЕГА КОМБО x${combo}! +50 монет 💥`;
+                comboText.style.color = '#ff6600';
+            } else {
+                comboText.innerHTML = `✨ Успешный код! +50 монет ✨ (Комбо: ${combo})`;
+            }
+            
+            // Показываем анимацию монетки от кнопки
+            const btnRect = codeBtn.getBoundingClientRect();
+            showFloatingCoin(btnRect.left + btnRect.width / 2, btnRect.top);
+            
+        } else {
+            codeItem = failedCode[Math.floor(Math.random() * failedCode.length)];
+            // Неудача: сбрасываем комбо, монеты не даем
+            combo = 0;
+            totalCodeLines++;
+            comboText.innerHTML = `❌ Баг в коде! Комбо сброшено ❌`;
+            comboText.style.color = '#ff6666';
+            
+            // Анимация ошибки
+            character.style.animation = 'shake 0.3s ease';
+            setTimeout(() => {
+                character.style.animation = '';
+            }, 300);
+        }
+        
+        // Добавляем запись в лог
+        addLogEntry(isSuccess, codeItem.text, codeItem.desc);
+        
+        // Обновляем UI
+        updateUI();
+        
+        // Сбрасываем комбо текст через 2 секунды
+        setTimeout(() => {
+            if (combo > 0) {
+                comboText.innerHTML = `🔥 Комбо: ${combo} 🔥`;
+            } else {
+                comboText.innerHTML = `✨ Нажми кодить, чтобы продолжить ✨`;
+                comboText.style.color = '#ffaa44';
+            }
+        }, 2000);
+        
+        // Конец задержки
+        setTimeout(() => {
+            isCooldown = false;
+            codeBtn.disabled = false;
+        }, 400);
+    }
+    
+    // Функция обновления UI
+    function updateUI() {
+        coinCounter.textContent = coins;
+        codeCountSpan.textContent = totalCodeLines;
+    }
+    
+    // Анимация тряски для ошибки
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-2deg); }
+            75% { transform: translateX(5px) rotate(2deg); }
+            100% { transform: translateX(0); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Обработчик кнопки
+    codeBtn.addEventListener('click', code);
+    
+    // Поддержка клавиши R для быстрого кодинга
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'KeyR' && !isCooldown) {
+            e.preventDefault();
+            code();
+        }
+    });
+    
+    // Сохраняем комбо при закрытии (опционально)
+    window.addEventListener('beforeunload', () => {
+        localStorage.setItem('programmerCoins', coins);
+        localStorage.setItem('programmerLines', totalCodeLines);
+    });
+    
+    // Загружаем сохранения если есть
+    if (localStorage.getItem('programmerCoins')) {
+        coins = parseInt(localStorage.getItem('programmerCoins')) || 0;
+        totalCodeLines = parseInt(localStorage.getItem('programmerLines')) || 0;
+        updateUI();
+        addLogEntry(true, '# Загрузка', 'Сохраненная игра загружена! Добро пожаловать обратно!');
+    }
+</script>
+</body>
+</html>
