@@ -1,0 +1,12 @@
+{
+  "background_color": "#1a1a2e",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Программист",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "coder",
+  "start_url": "/",
+  "theme_color": "#2ecc71",
+  "id": "com.programmer.game"
+}
