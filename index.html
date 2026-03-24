@@ -16,6 +16,7 @@
             min-height: 100vh;
             font-family: 'Segoe UI', 'Courier New', monospace;
             transition: background 0.5s ease;
+            overflow-x: hidden;
         }
 
         /* Фоны */
@@ -49,19 +50,20 @@
 
         .game-container {
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(3px);
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
             padding: 20px;
         }
 
         .game {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            background: rgba(10, 10, 20, 0.9);
+            background: rgba(10, 10, 20, 0.92);
             border-radius: 32px;
-            padding: 20px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 24px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(2px);
         }
 
         /* Аутентификация */
@@ -72,67 +74,115 @@
         .auth-screen h2 {
             color: #2ecc71;
             margin-bottom: 20px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(46,204,113,0.3);
         }
         .auth-input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin: 10px 0;
-            border-radius: 12px;
+            border-radius: 16px;
             border: none;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.12);
             color: white;
             font-size: 16px;
+            font-family: monospace;
+            transition: all 0.2s;
+        }
+        .auth-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 0 2px #2ecc71;
         }
         .auth-btn {
-            background: #2ecc71;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
+            padding: 14px 30px;
+            border-radius: 40px;
             font-size: 18px;
             font-weight: bold;
             color: white;
             margin: 10px;
             cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+        .auth-btn:active {
+            transform: scale(0.96);
         }
         .tg-link {
             background: #0088cc;
             display: inline-block;
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 12px 24px;
+            border-radius: 40px;
             color: white;
             text-decoration: none;
             margin: 15px 0;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .tg-link:hover {
+            background: #0099ee;
+            transform: scale(1.02);
         }
 
         /* Основной геймплей */
         .stats {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 12px 20px;
             background: rgba(0,0,0,0.5);
             border-radius: 60px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        .coins, .level {
-            font-size: 20px;
+        .coins, .level, .combo-badge {
+            font-size: 18px;
             font-weight: bold;
+            background: rgba(0,0,0,0.5);
+            padding: 6px 16px;
+            border-radius: 40px;
+        }
+        .coins { color: #f1c40f; }
+        .combo-badge { color: #e67e22; background: rgba(230,126,34,0.2); }
+        .logout-btn {
+            background: #e74c3c;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
         }
         .character-area {
             text-align: center;
             padding: 20px;
         }
         .character {
-            font-size: 80px;
-            transition: 0.1s;
+            font-size: 90px;
+            transition: 0.05s linear;
+            display: inline-block;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
         }
         .character.typing {
-            animation: shake 0.1s infinite;
+            animation: typeShake 0.08s infinite;
         }
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(2px); }
-            75% { transform: translateX(-2px); }
-            100% { transform: translateX(0); }
+        @keyframes typeShake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(2px, -1px) rotate(1deg); }
+            75% { transform: translate(-2px, 1px) rotate(-1deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .keyboard {
+            background: #111;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-family: monospace;
+            color: #6a9955;
+            font-size: 14px;
+            margin-top: 10px;
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.1), 0 5px 8px rgba(0,0,0,0.5);
         }
         .code-btn {
             background: linear-gradient(135deg, #2ecc71, #27ae60);
@@ -145,82 +195,145 @@
             color: white;
             cursor: pointer;
             margin: 15px 0;
+            transition: all 0.1s;
+            box-shadow: 0 5px 0 #1e7e4a;
+        }
+        .code-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1e7e4a;
         }
         .code-log {
-            background: rgba(0,0,0,0.6);
-            border-radius: 16px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
             padding: 15px;
-            height: 200px;
+            height: 220px;
             overflow-y: auto;
+            font-size: 13px;
+            font-family: monospace;
+            border: 1px solid #2ecc7133;
+        }
+        .log-entry {
+            padding: 6px 10px;
+            margin: 6px 0;
+            border-radius: 12px;
+            animation: slideIn 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .log-success { background: rgba(46,204,113,0.2); border-left: 4px solid #2ecc71; }
+        .log-fail { background: rgba(231,76,60,0.2); border-left: 4px solid #e74c3c; }
+        .code-snippet {
+            background: #00000066;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-family: monospace;
             font-size: 12px;
         }
         .shop-btn {
             background: #f39c12;
-            padding: 10px;
-            border-radius: 30px;
+            padding: 12px;
+            border-radius: 40px;
             text-align: center;
-            margin-top: 10px;
+            margin: 10px 0;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
         }
         .shop-panel {
             display: none;
             margin-top: 15px;
-            padding: 10px;
-            background: rgba(0,0,0,0.6);
-            border-radius: 16px;
+            padding: 15px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 24px;
+            text-align: center;
         }
         .shop-item {
             display: inline-block;
             width: 45%;
-            margin: 5px;
+            margin: 6px;
             padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 20px;
             text-align: center;
             cursor: pointer;
+            transition: 0.1s;
         }
-        .logout-btn {
-            background: #e74c3c;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
+        .shop-item:active { transform: scale(0.96); background: rgba(255,255,255,0.2); }
+        .floating-effect {
+            position: fixed;
+            pointer-events: none;
+            font-size: 28px;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 2000;
+            font-weight: bold;
+            text-shadow: 0 0 5px black;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(0.8); }
+            100% { opacity: 0; transform: translateY(-90px) scale(1.3); }
+        }
+        .combo-popup {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 42px;
+            font-weight: bold;
+            color: #ffaa33;
+            text-shadow: 0 0 15px orange;
+            animation: comboBlast 0.6s ease-out forwards;
+            z-index: 2000;
+            white-space: nowrap;
+        }
+        @keyframes comboBlast {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+            70% { opacity: 0.9; transform: translate(-50%, -80px) scale(1.3); }
+            100% { opacity: 0; transform: translate(-50%, -120px) scale(1); }
+        }
+        .code-btn:disabled {
+            opacity: 0.6;
+            transform: none;
         }
     </style>
 </head>
 <body class="bg-default">
 <div class="game-container" id="app">
-    <!-- Экран регистрации/входа -->
     <div id="authScreen" class="game">
         <div class="auth-screen">
             <h2>🐍 КОД МАСТЕР</h2>
             <p>Подпишись на Telegram канал:</p>
             <a href="https://t.me/hioly3" target="_blank" class="tg-link">📱 @hioly3</a>
-            <input type="text" id="regUsername" class="auth-input" placeholder="Придумайте никнейм">
-            <input type="text" id="regLogin" class="auth-input" placeholder="Логин">
-            <input type="password" id="regPassword" class="auth-input" placeholder="Пароль">
-            <button class="auth-btn" onclick="register()">🔓 Регистрация</button>
-            <p style="margin-top: 15px;">Уже есть аккаунт?</p>
-            <input type="text" id="loginLogin" class="auth-input" placeholder="Логин">
-            <input type="password" id="loginPassword" class="auth-input" placeholder="Пароль">
-            <button class="auth-btn" onclick="login()">🔑 Вход</button>
+            <input type="text" id="regUsername" class="auth-input" placeholder="👤 Никнейм">
+            <input type="text" id="regLogin" class="auth-input" placeholder="🔑 Логин">
+            <input type="password" id="regPassword" class="auth-input" placeholder="🔒 Пароль">
+            <button class="auth-btn" onclick="register()">✨ Регистрация</button>
+            <p style="margin-top: 20px;">Уже есть аккаунт?</p>
+            <input type="text" id="loginLogin" class="auth-input" placeholder="🔑 Логин">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="🔒 Пароль">
+            <button class="auth-btn" onclick="login()">🚀 Вход</button>
         </div>
     </div>
 
-    <!-- Основная игра (скрыта до авторизации) -->
     <div id="gameScreen" style="display: none;">
         <div class="game">
             <div class="stats">
                 <div class="coins">💰 <span id="coinAmount">0</span></div>
                 <div class="level">👤 <span id="nicknameDisplay"></span></div>
+                <div class="combo-badge" id="comboDisplay">🔥 Комбо: 0</div>
                 <div class="logout-btn" onclick="logout()">🚪 Выйти</div>
             </div>
             <div class="character-area">
                 <div class="character" id="gameCharacter">🧑‍💻</div>
-                <div class="keyboard" style="background:#111; padding:8px; border-radius:12px;">⌨️ Ctrl + R / Кнопка</div>
+                <div class="keyboard">⌨️ нажми КОДИТЬ или клавишу R ⌨️</div>
             </div>
             <button class="code-btn" id="codeGameBtn" onclick="doCode()">💻 КОДИТЬ 💻</button>
-            <div class="shop-btn" onclick="toggleShop()">🛒 Магазин фонов (50 монет)</div>
+            <div class="shop-btn" onclick="toggleShop()">🛒 МАГАЗИН ФОНОВ (50 монет)</div>
             <div id="shopPanel" class="shop-panel">
                 <div class="shop-item" onclick="buyBackground('bg-default', 'Стандарт')">🌙 Стандарт</div>
                 <div class="shop-item" onclick="buyBackground('bg-desert', 'Пустыня')">🏜️ Пустыня</div>
@@ -229,14 +342,13 @@
                 <div class="shop-item" onclick="buyBackground('bg-cyber', 'Киберпанк')">💀 Киберпанк</div>
             </div>
             <div class="code-log" id="gameLog">
-                <div>🤖 Добро пожаловать! Нажимай КОДИТЬ</div>
+                <div class="log-entry"><span>🤖</span> Терминал готов. Напиши код, чтобы заработать монеты!</div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Игровые данные пользователя ---
     let currentUser = null;
     let coins = 0;
     let currentBg = 'bg-default';
@@ -244,23 +356,24 @@
     let combo = 0;
     let isCooldown = false;
 
-    // Кодовые фразы
     const successCodes = [
-        { text: 'print("Hello, World!")', msg: 'Приветствие миру! +50' },
-        { text: 'def func(): return True', msg: 'Функция работает идеально!' },
-        { text: 'import antigravity', msg: 'Антигравитация активирована!' },
-        { text: 'list comprehension', msg: 'Генератор списков!' },
-        { text: 'with open() as f', msg: 'Файл прочитан' }
+        { text: 'print("Hello, World!")', msg: 'Приветствие миру! +50 🐍' },
+        { text: 'def factorial(n): return 1 if n<=1 else n*factorial(n-1)', msg: 'Рекурсия работает! +50' },
+        { text: 'import antigravity', msg: 'Антигравитация активирована! +50' },
+        { text: '[x**2 for x in range(10)]', msg: 'Генератор списков идеален! +50' },
+        { text: 'with open("data.txt") as f: data=f.read()', msg: 'Файл прочитан. +50' },
+        { text: 'try: result=10/2 except: pass', msg: 'Исключения обработаны! +50' },
+        { text: '@dataclass class User: name: str', msg: 'Декораторы упростили код! +50' }
     ];
     const failCodes = [
-        { text: 'prnt("Hello")', msg: 'NameError: prnt' },
-        { text: 'x = 10 / 0', msg: 'ZeroDivisionError' },
-        { text: 'import fake', msg: 'ModuleNotFoundError' },
-        { text: 'list[999]', msg: 'IndexError' },
-        { text: 'while True: pass', msg: 'Бесконечный цикл!' }
+        { text: 'prnt("Hello")', msg: 'NameError: prnt не определён ❌' },
+        { text: 'x = 10 / 0', msg: 'ZeroDivisionError ❌' },
+        { text: 'import fake_module', msg: 'ModuleNotFoundError ❌' },
+        { text: 'list = [1,2,3]; list[5]', msg: 'IndexError: вне диапазона ❌' },
+        { text: 'while True: pass', msg: 'Бесконечный цикл! Остановлен ❌' },
+        { text: 'int("python")', msg: 'ValueError: нельзя преобразовать ❌' }
     ];
 
-    // Сохранение пользователей в localStorage
     function saveUserData() {
         let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
         if (currentUser) {
@@ -284,36 +397,32 @@
             ownedBgs = data.ownedBgs || ['bg-default'];
             currentBg = data.currentBg || 'bg-default';
             document.body.className = currentBg;
-            updateCoinDisplay();
+            updateUI();
             return true;
         }
         coins = 0;
         ownedBgs = ['bg-default'];
         currentBg = 'bg-default';
         document.body.className = currentBg;
-        updateCoinDisplay();
+        updateUI();
         return false;
+    }
+
+    function updateUI() {
+        document.getElementById('coinAmount').innerText = coins;
+        document.getElementById('comboDisplay').innerHTML = `🔥 Комбо: ${combo}`;
+        if (currentUser) document.getElementById('nicknameDisplay').innerText = currentUser.nickname;
     }
 
     function register() {
         let nickname = document.getElementById('regUsername').value.trim();
         let login = document.getElementById('regLogin').value.trim();
         let password = document.getElementById('regPassword').value.trim();
-        if (!nickname || !login || !password) {
-            alert('Заполните все поля!');
-            return;
-        }
+        if (!nickname || !login || !password) return alert('Заполните все поля!');
         let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        if (users[login]) {
-            alert('Логин уже занят');
-            return;
-        }
-        // Проверка подписки на телеграм (упрощённо)
+        if (users[login]) return alert('Логин уже занят');
         let tgConfirmed = confirm("Вы подписались на Telegram канал @hioly3? Нажмите ОК для подтверждения.");
-        if (!tgConfirmed) {
-            alert("Подпишитесь на канал: https://t.me/hioly3");
-            return;
-        }
+        if (!tgConfirmed) return alert("Подпишитесь на канал: https://t.me/hioly3");
         currentUser = { login, password, nickname };
         users[login] = { password, nickname, coins: 0, ownedBgs: ['bg-default'], currentBg: 'bg-default' };
         localStorage.setItem('codeUsers', JSON.stringify(users));
@@ -326,10 +435,7 @@
         let login = document.getElementById('loginLogin').value.trim();
         let password = document.getElementById('loginPassword').value.trim();
         let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        if (!users[login] || users[login].password !== password) {
-            alert('Неверный логин или пароль');
-            return;
-        }
+        if (!users[login] || users[login].password !== password) return alert('Неверный логин или пароль');
         currentUser = { login, password, nickname: users[login].nickname };
         localStorage.setItem('currentUserLogin', login);
         loadUserData(login);
@@ -341,55 +447,86 @@
         currentUser = null;
         document.getElementById('gameScreen').style.display = 'none';
         document.getElementById('authScreen').style.display = 'block';
+        combo = 0;
     }
 
     function showGame() {
         document.getElementById('authScreen').style.display = 'none';
         document.getElementById('gameScreen').style.display = 'block';
-        document.getElementById('nicknameDisplay').innerText = currentUser.nickname;
-        updateCoinDisplay();
-        addLogEntry(true, '', `Добро пожаловать, ${currentUser.nickname}!`);
-    }
-
-    function updateCoinDisplay() {
-        document.getElementById('coinAmount').innerText = coins;
+        updateUI();
+        addLogEntry(true, '', `Добро пожаловать, ${currentUser.nickname}! Баланс: ${coins} монет.`);
     }
 
     function addLogEntry(isSuccess, code, msg) {
         let logDiv = document.getElementById('gameLog');
         let entry = document.createElement('div');
-        entry.style.padding = '4px';
-        entry.style.borderLeft = `3px solid ${isSuccess ? '#2ecc71' : '#e74c3c'}`;
-        entry.style.margin = '4px 0';
-        entry.innerHTML = `${isSuccess ? '✅' : '❌'} ${code ? '<code>' + code + '</code> ' : ''}${msg}`;
+        entry.className = `log-entry ${isSuccess ? 'log-success' : 'log-fail'}`;
+        let icon = isSuccess ? '✅' : '❌';
+        let codeHtml = code ? `<span class="code-snippet">${escapeHtml(code)}</span>` : '';
+        entry.innerHTML = `<span>${icon}</span> ${codeHtml} <span>${escapeHtml(msg)}</span>`;
         logDiv.appendChild(entry);
         entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
     }
 
+    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+    function showFloatingEffect(text, isPositive) {
+        let effect = document.createElement('div');
+        effect.className = 'floating-effect';
+        effect.innerText = text;
+        effect.style.color = isPositive ? '#2ecc71' : '#e74c3c';
+        effect.style.left = (window.innerWidth/2 - 40) + 'px';
+        effect.style.bottom = '120px';
+        document.body.appendChild(effect);
+        setTimeout(() => effect.remove(), 1000);
+    }
+
+    function showComboPopup(comboCount) {
+        if (comboCount >= 2) {
+            let pop = document.createElement('div');
+            pop.className = 'combo-popup';
+            pop.innerText = `✨ КОМБО x${comboCount} ! ✨`;
+            document.body.appendChild(pop);
+            setTimeout(() => pop.remove(), 600);
+        }
+    }
+
     async function doCode() {
-        if (isCooldown) return;
+        if (isCooldown || !currentUser) return;
         isCooldown = true;
-        document.getElementById('gameCharacter').classList.add('typing');
+        let btn = document.getElementById('codeGameBtn');
+        btn.disabled = true;
+        let char = document.getElementById('gameCharacter');
+        char.classList.add('typing');
         await new Promise(r => setTimeout(r, 150));
-        let successChance = 0.7 + (combo * 0.03);
-        successChance = Math.min(successChance, 0.9);
+        
+        let successChance = 0.65 + (combo * 0.035);
+        successChance = Math.min(successChance, 0.92);
         let isSuccess = Math.random() < successChance;
         let codeItem;
         if (isSuccess) {
             codeItem = successCodes[Math.floor(Math.random() * successCodes.length)];
-            coins += 50;
+            let earned = 50 + Math.floor(combo / 3) * 5;
+            coins += earned;
             combo++;
-            addLogEntry(true, codeItem.text, `+50 монет! ${codeItem.msg}`);
+            addLogEntry(true, codeItem.text, `${codeItem.msg} +${earned} монет! Комбо: ${combo}`);
+            showFloatingEffect(`+${earned}💰`, true);
+            if (combo >= 2) showComboPopup(combo);
         } else {
             codeItem = failCodes[Math.floor(Math.random() * failCodes.length)];
+            addLogEntry(false, codeItem.text, `${codeItem.msg} Комбо сброшено!`);
+            showFloatingEffect(`-${combo} комбо`, false);
             combo = 0;
-            addLogEntry(false, codeItem.text, codeItem.msg);
         }
-        updateCoinDisplay();
+        updateUI();
         saveUserData();
-        document.getElementById('gameCharacter').classList.remove('typing');
-        setTimeout(() => { isCooldown = false; }, 400);
+        
+        char.classList.remove('typing');
+        setTimeout(() => {
+            isCooldown = false;
+            btn.disabled = false;
+        }, 350);
     }
 
     function toggleShop() {
@@ -409,14 +546,21 @@
             currentBg = bgClass;
             document.body.className = currentBg;
             saveUserData();
-            updateCoinDisplay();
-            addLogEntry(true, '', `Куплен фон "${bgName}"! -50 монет`);
+            updateUI();
+            addLogEntry(true, '', `🎨 Куплен фон "${bgName}"! -50 монет`);
+            showFloatingEffect('-50💰', true);
         } else {
-            addLogEntry(false, '', `Не хватает монет для фона "${bgName}"`);
+            addLogEntry(false, '', `Не хватает монет для фона "${bgName}" (нужно 50)`);
         }
     }
 
-    // Восстановление сессии при загрузке
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'KeyR' && currentUser && document.getElementById('gameScreen').style.display !== 'none' && !isCooldown) {
+            e.preventDefault();
+            doCode();
+        }
+    });
+
     let savedLogin = localStorage.getItem('currentUserLogin');
     if (savedLogin) {
         let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
@@ -424,18 +568,8 @@
             currentUser = { login: savedLogin, password: users[savedLogin].password, nickname: users[savedLogin].nickname };
             loadUserData(savedLogin);
             showGame();
-        } else {
-            localStorage.removeItem('currentUserLogin');
-        }
+        } else localStorage.removeItem('currentUserLogin');
     }
-
-    // Горячая клавиша R
-    document.addEventListener('keydown', (e) => {
-        if (e.code === 'KeyR' && currentUser && !isCooldown) {
-            e.preventDefault();
-            doCode();
-        }
-    });
 </script>
 </body>
 </html>
