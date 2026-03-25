@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Программист - Код Мастер</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>КодМастер — Прокачай свой код</title>
     <style>
         * {
             margin: 0;
@@ -15,560 +15,598 @@
         body {
             min-height: 100vh;
             font-family: 'Segoe UI', 'Courier New', monospace;
-            transition: background 0.5s ease;
+            background: radial-gradient(circle at 20% 30%, #0a0f1f, #03060c);
+            transition: background 0.3s;
             overflow-x: hidden;
         }
 
-        /* Фоны */
-        body.bg-default {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        }
-        body.bg-desert {
-            background: linear-gradient(135deg, #c94b4b, #4b1e1e);
-            background-image: url('https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center;
-        }
-        body.bg-classroom {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            background-image: url('https://images.pexels.com/photos/256468/pexels-photo-256468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center;
-        }
-        body.bg-space {
-            background: linear-gradient(135deg, #0a0f2a, #0f0f2a);
-            background-image: url('https://images.pexels.com/photos/998641/pexels-photo-998641.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center;
-        }
-        body.bg-cyber {
-            background: linear-gradient(135deg, #0a0f1a, #0a2a2a);
-            background-image: url('https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center;
+        /* Динамические фоны */
+        body.bg-default { background: radial-gradient(circle at 20% 30%, #0a0f1f, #03060c); }
+        body.bg-desert { background: linear-gradient(145deg, #c94b4b, #4a1e1e); }
+        body.bg-classroom { background: linear-gradient(145deg, #1e3c4a, #0f2c3a); }
+        body.bg-space { background: radial-gradient(circle at 10% 20%, #0b1120, #010101); }
+        body.bg-cyber { background: linear-gradient(45deg, #0d0221, #1a0933); }
+
+        .glass-panel {
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+            transition: all 0.2s;
         }
 
         .game-container {
             min-height: 100vh;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(4px);
-            padding: 20px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .game {
             max-width: 650px;
+            width: 100%;
             margin: 0 auto;
-            background: rgba(10, 10, 20, 0.92);
-            border-radius: 32px;
-            padding: 24px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.15);
-            backdrop-filter: blur(2px);
+            background: rgba(8, 12, 25, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            box-shadow: 0 25px 40px rgba(0,0,0,0.4);
         }
 
         /* Аутентификация */
         .auth-screen {
             text-align: center;
-            padding: 20px;
+            padding: 1rem;
         }
         .auth-screen h2 {
-            color: #2ecc71;
-            margin-bottom: 20px;
-            font-size: 28px;
-            text-shadow: 0 0 10px rgba(46,204,113,0.3);
+            background: linear-gradient(135deg, #2ecc71, #f1c40f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
         }
         .auth-input {
             width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 16px;
+            padding: 0.9rem;
+            margin: 0.6rem 0;
+            border-radius: 2rem;
             border: none;
-            background: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.1);
             color: white;
-            font-size: 16px;
-            font-family: monospace;
-            transition: all 0.2s;
-        }
-        .auth-input:focus {
-            outline: none;
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 0 0 2px #2ecc71;
+            font-size: 1rem;
         }
         .auth-btn {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(95deg, #2ecc71, #27ae60);
             border: none;
-            padding: 14px 30px;
-            border-radius: 40px;
-            font-size: 18px;
+            padding: 0.8rem 1.8rem;
+            border-radius: 3rem;
             font-weight: bold;
             color: white;
-            margin: 10px;
+            margin: 0.5rem;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
+            transition: 0.1s linear;
         }
-        .auth-btn:active {
-            transform: scale(0.96);
-        }
-        .tg-link {
-            background: #0088cc;
-            display: inline-block;
-            padding: 12px 24px;
-            border-radius: 40px;
+        .tg-link-btn {
+            background: #1da1f2;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
             color: white;
             text-decoration: none;
-            margin: 15px 0;
+            margin: 1rem 0;
             font-weight: bold;
-            transition: 0.2s;
-        }
-        .tg-link:hover {
-            background: #0099ee;
-            transform: scale(1.02);
         }
 
-        /* Основной геймплей */
-        .stats {
+        /* Верхняя панель */
+        .stats-bar {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 12px 20px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 60px;
             flex-wrap: wrap;
-            gap: 10px;
-        }
-        .coins, .level, .combo-badge {
-            font-size: 18px;
-            font-weight: bold;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
             background: rgba(0,0,0,0.5);
-            padding: 6px 16px;
-            border-radius: 40px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 3rem;
         }
-        .coins { color: #f1c40f; }
-        .combo-badge { color: #e67e22; background: rgba(230,126,34,0.2); }
-        .logout-btn {
-            background: #e74c3c;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .character-area {
-            text-align: center;
-            padding: 20px;
-        }
-        .character {
-            font-size: 90px;
-            transition: 0.05s linear;
-            display: inline-block;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
-        }
-        .character.typing {
-            animation: typeShake 0.08s infinite;
-        }
-        @keyframes typeShake {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2px, -1px) rotate(1deg); }
-            75% { transform: translate(-2px, 1px) rotate(-1deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-        .keyboard {
-            background: #111;
-            padding: 10px 20px;
-            border-radius: 20px;
-            display: inline-block;
-            font-family: monospace;
-            color: #6a9955;
-            font-size: 14px;
-            margin-top: 10px;
-            box-shadow: inset 0 1px 3px rgba(255,255,255,0.1), 0 5px 8px rgba(0,0,0,0.5);
-        }
-        .code-btn {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            width: 100%;
-            padding: 18px;
-            font-size: 24px;
+        .stat-chip {
+            background: #00000066;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
             font-weight: bold;
-            border: none;
-            border-radius: 60px;
-            color: white;
-            cursor: pointer;
-            margin: 15px 0;
-            transition: all 0.1s;
-            box-shadow: 0 5px 0 #1e7e4a;
-        }
-        .code-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #1e7e4a;
-        }
-        .code-log {
-            background: rgba(0,0,0,0.7);
-            border-radius: 20px;
-            padding: 15px;
-            height: 220px;
-            overflow-y: auto;
-            font-size: 13px;
-            font-family: monospace;
-            border: 1px solid #2ecc7133;
-        }
-        .log-entry {
-            padding: 6px 10px;
-            margin: 6px 0;
-            border-radius: 12px;
-            animation: slideIn 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 6px;
         }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-15px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .log-success { background: rgba(46,204,113,0.2); border-left: 4px solid #2ecc71; }
-        .log-fail { background: rgba(231,76,60,0.2); border-left: 4px solid #e74c3c; }
-        .code-snippet {
-            background: #00000066;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-family: monospace;
-            font-size: 12px;
-        }
-        .shop-btn {
-            background: #f39c12;
-            padding: 12px;
-            border-radius: 40px;
+        .coins-gold { color: #f9c74f; }
+        .level-text { color: #bb86fc; }
+        .combo-fire { color: #ff9f4a; }
+
+        /* Главный герой */
+        .character-zone {
             text-align: center;
-            margin: 10px 0;
+            margin: 1rem 0;
+        }
+        .character {
+            font-size: 6rem;
+            filter: drop-shadow(0 8px 12px black);
+            transition: 0.05s linear;
+        }
+        .typing-anim {
+            animation: hammer 0.1s infinite;
+        }
+        @keyframes hammer {
+            0% { transform: translate(0,0);}
+            25% { transform: translate(2px,-2px) rotate(2deg);}
+            75% { transform: translate(-2px,1px) rotate(-1deg);}
+        }
+
+        /* Режимы */
+        .mode-switch {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .mode-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.7rem;
+            border-radius: 3rem;
+            background: #1e2a3a;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
-        }
-        .shop-panel {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(0,0,0,0.7);
-            border-radius: 24px;
-            text-align: center;
-        }
-        .shop-item {
-            display: inline-block;
-            width: 45%;
-            margin: 6px;
-            padding: 10px;
-            background: rgba(255,255,255,0.12);
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
             transition: 0.1s;
         }
-        .shop-item:active { transform: scale(0.96); background: rgba(255,255,255,0.2); }
-        .floating-effect {
+        .mode-active {
+            background: #2ecc71;
+            color: black;
+            box-shadow: 0 0 8px #2ecc71;
+        }
+        .code-btn, .tap-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 3rem;
+            margin: 0.8rem 0;
+            cursor: pointer;
+            transition: 0.07s linear;
+        }
+        .code-btn { background: linear-gradient(95deg, #2ecc71, #27ae60); color: white; }
+        .tap-btn { background: linear-gradient(95deg, #f39c12, #e67e22); color: white; }
+
+        /* Лог событий */
+        .event-log {
+            background: rgba(0,0,0,0.7);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            font-family: monospace;
+            margin-top: 1rem;
+        }
+        .log-line {
+            padding: 0.3rem;
+            border-left: 3px solid;
+            margin: 0.3rem 0;
+            border-radius: 0.8rem;
+        }
+        .shop-grid {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+        .shop-card {
+            background: rgba(0,0,0,0.6);
+            border-radius: 1.2rem;
+            padding: 0.7rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .footer-tg {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.8rem;
+        }
+        .tg-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1e2a3a;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        button:active { transform: scale(0.97); }
+        .floating-money {
             position: fixed;
             pointer-events: none;
-            font-size: 28px;
-            animation: floatUp 1s ease-out forwards;
-            z-index: 2000;
+            font-size: 1.6rem;
             font-weight: bold;
-            text-shadow: 0 0 5px black;
+            z-index: 999;
+            animation: flyUp 0.9s ease-out forwards;
         }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(0.8); }
-            100% { opacity: 0; transform: translateY(-90px) scale(1.3); }
-        }
-        .combo-popup {
-            position: fixed;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 42px;
-            font-weight: bold;
-            color: #ffaa33;
-            text-shadow: 0 0 15px orange;
-            animation: comboBlast 0.6s ease-out forwards;
-            z-index: 2000;
-            white-space: nowrap;
-        }
-        @keyframes comboBlast {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
-            70% { opacity: 0.9; transform: translate(-50%, -80px) scale(1.3); }
-            100% { opacity: 0; transform: translate(-50%, -120px) scale(1); }
-        }
-        .code-btn:disabled {
-            opacity: 0.6;
-            transform: none;
+        @keyframes flyUp {
+            0% { opacity: 1; transform: translateY(0px);}
+            100% { opacity: 0; transform: translateY(-70px);}
         }
     </style>
 </head>
-<body class="bg-default">
+<body>
 <div class="game-container" id="app">
+    <!-- АВТОРИЗАЦИЯ -->
     <div id="authScreen" class="game">
         <div class="auth-screen">
             <h2>🐍 КОД МАСТЕР</h2>
-            <p>Подпишись на Telegram канал:</p>
-            <a href="https://t.me/hioly3" target="_blank" class="tg-link">📱 @hioly3</a>
+            <p>🎮 Прокачай навык Python</p>
+            <a href="https://t.me/hioly3" target="_blank" class="tg-link-btn">📱 Подпишись на Telegram</a>
             <input type="text" id="regUsername" class="auth-input" placeholder="👤 Никнейм">
-            <input type="text" id="regLogin" class="auth-input" placeholder="🔑 Логин">
+            <input type="text" id="regLogin" class="auth-input" placeholder="🔐 Логин">
             <input type="password" id="regPassword" class="auth-input" placeholder="🔒 Пароль">
-            <button class="auth-btn" onclick="register()">✨ Регистрация</button>
-            <p style="margin-top: 20px;">Уже есть аккаунт?</p>
-            <input type="text" id="loginLogin" class="auth-input" placeholder="🔑 Логин">
+            <button class="auth-btn" onclick="registerUser()">✨ Создать аккаунт</button>
+            <hr style="margin: 1rem; opacity:0.3">
+            <input type="text" id="loginLogin" class="auth-input" placeholder="🔐 Логин">
             <input type="password" id="loginPassword" class="auth-input" placeholder="🔒 Пароль">
-            <button class="auth-btn" onclick="login()">🚀 Вход</button>
+            <button class="auth-btn" onclick="loginUser()">🚀 Вход</button>
+            <div class="footer-tg">
+                <span style="color:#aaa">владелец: @uglyctephan</span>
+            </div>
         </div>
     </div>
 
-    <div id="gameScreen" style="display: none;">
-        <div class="game">
-            <div class="stats">
-                <div class="coins">💰 <span id="coinAmount">0</span></div>
-                <div class="level">👤 <span id="nicknameDisplay"></span></div>
-                <div class="combo-badge" id="comboDisplay">🔥 Комбо: 0</div>
-                <div class="logout-btn" onclick="logout()">🚪 Выйти</div>
-            </div>
-            <div class="character-area">
-                <div class="character" id="gameCharacter">🧑‍💻</div>
-                <div class="keyboard">⌨️ нажми КОДИТЬ или клавишу R ⌨️</div>
-            </div>
-            <button class="code-btn" id="codeGameBtn" onclick="doCode()">💻 КОДИТЬ 💻</button>
-            <div class="shop-btn" onclick="toggleShop()">🛒 МАГАЗИН ФОНОВ (50 монет)</div>
-            <div id="shopPanel" class="shop-panel">
-                <div class="shop-item" onclick="buyBackground('bg-default', 'Стандарт')">🌙 Стандарт</div>
-                <div class="shop-item" onclick="buyBackground('bg-desert', 'Пустыня')">🏜️ Пустыня</div>
-                <div class="shop-item" onclick="buyBackground('bg-classroom', 'Кабинет')">🏫 Кабинет</div>
-                <div class="shop-item" onclick="buyBackground('bg-space', 'Космос')">🚀 Космос</div>
-                <div class="shop-item" onclick="buyBackground('bg-cyber', 'Киберпанк')">💀 Киберпанк</div>
-            </div>
-            <div class="code-log" id="gameLog">
-                <div class="log-entry"><span>🤖</span> Терминал готов. Напиши код, чтобы заработать монеты!</div>
-            </div>
+    <!-- ОСНОВНАЯ ИГРА -->
+    <div id="gameScreen" style="display: none;" class="game">
+        <div class="stats-bar">
+            <div class="stat-chip">💰 <span id="coinAmount" class="coins-gold">0</span></div>
+            <div class="stat-chip">⭐ Уровень <span id="userLevel">1</span></div>
+            <div class="stat-chip">🔥 <span id="comboValue">0</span> комбо</div>
+            <div class="stat-chip">👤 <span id="nicknameShow"></span></div>
+        </div>
+
+        <div class="character-zone">
+            <div class="character" id="gameChar">🧑‍💻</div>
+            <div style="font-size:12px; margin-top:5px;">⚡ Режим: <span id="activeModeName">Кодинг</span></div>
+        </div>
+
+        <div class="mode-switch">
+            <div class="mode-btn" id="modeCodeBtn" onclick="setMode('code')">💻 КОДИНГ</div>
+            <div class="mode-btn" id="modeTapBtn" onclick="setMode('tap')">🍟 НАСТЯ-ТАПАЛКА</div>
+        </div>
+
+        <!-- Кнопка действия -->
+        <div id="codeActionArea">
+            <button class="code-btn" id="mainActionBtn" onclick="handleMainAction()">📝 ПИСАТЬ КОД</button>
+        </div>
+
+        <!-- Магазин / улучшения -->
+        <div class="shop-card" onclick="toggleShopMenu()" style="background:#2c3e66;">🛒 МАГАЗИН УЛУЧШЕНИЙ ▼</div>
+        <div id="shopMenu" style="display: none;" class="shop-grid">
+            <div class="shop-card" onclick="buyUpgrade('tapUpgrade')">🍟 Настя-тапалка<br><span id="tapUpgradePrice">2000</span>💰</div>
+            <div class="shop-card" onclick="buyBackgroundItem('bg-desert')">🏜️ Пустыня 50💰</div>
+            <div class="shop-card" onclick="buyBackgroundItem('bg-classroom')">🏫 Кабинет 50💰</div>
+            <div class="shop-card" onclick="buyBackgroundItem('bg-space')">🚀 Космос 50💰</div>
+            <div class="shop-card" onclick="buyBackgroundItem('bg-cyber')">💀 Киберпанк 50💰</div>
+        </div>
+
+        <!-- Лог событий (код / тапалка) -->
+        <div class="event-log" id="eventLog">
+            <div class="log-line" style="border-color:#2ecc71;">✨ Добро пожаловать! Пиши код или тапай картошку.</div>
+        </div>
+        <div class="footer-tg">
+            <a href="https://t.me/hioly3" target="_blank" class="tg-icon">📢 Telegram канал: @hioly3</a>
         </div>
     </div>
 </div>
 
 <script>
+    // ========== ГЛОБАЛЬНЫЕ ДАННЫЕ ==========
     let currentUser = null;
-    let coins = 0;
-    let currentBg = 'bg-default';
-    let ownedBgs = ['bg-default'];
-    let combo = 0;
-    let isCooldown = false;
-
-    const successCodes = [
-        { text: 'print("Hello, World!")', msg: 'Приветствие миру! +50 🐍' },
-        { text: 'def factorial(n): return 1 if n<=1 else n*factorial(n-1)', msg: 'Рекурсия работает! +50' },
-        { text: 'import antigravity', msg: 'Антигравитация активирована! +50' },
-        { text: '[x**2 for x in range(10)]', msg: 'Генератор списков идеален! +50' },
-        { text: 'with open("data.txt") as f: data=f.read()', msg: 'Файл прочитан. +50' },
-        { text: 'try: result=10/2 except: pass', msg: 'Исключения обработаны! +50' },
-        { text: '@dataclass class User: name: str', msg: 'Декораторы упростили код! +50' }
-    ];
-    const failCodes = [
-        { text: 'prnt("Hello")', msg: 'NameError: prnt не определён ❌' },
-        { text: 'x = 10 / 0', msg: 'ZeroDivisionError ❌' },
-        { text: 'import fake_module', msg: 'ModuleNotFoundError ❌' },
-        { text: 'list = [1,2,3]; list[5]', msg: 'IndexError: вне диапазона ❌' },
-        { text: 'while True: pass', msg: 'Бесконечный цикл! Остановлен ❌' },
-        { text: 'int("python")', msg: 'ValueError: нельзя преобразовать ❌' }
+    let userData = {
+        nickname: "",
+        coins: 100,
+        level: 1,
+        xp: 0,
+        tapUpgrade: false,      // куплена ли настя-тапалка
+        backgrounds: ['bg-default'],
+        activeBg: 'bg-default',
+        mode: 'code',            // 'code' или 'tap'
+        combo: 0
+    };
+    
+    let cooldown = false;
+    let pendingCodeChallenge = null;   // система уровней: { question, correctAnswer, reward }
+    let levelChallenges = [
+        { q: "Заверши код: print('Привет, ___')", correct: "мир", hint: "мир" },
+        { q: "Допиши условие: if x ___ 10: print('больше')", correct: ">", hint: ">" },
+        { q: "for i in range(___): print(i)", correct: "5", hint: "5" },
+        { q: "def func(): return ___", correct: "None", hint: "None" }
     ];
 
-    function saveUserData() {
-        let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        if (currentUser) {
-            users[currentUser.login] = {
-                password: currentUser.password,
-                nickname: currentUser.nickname,
-                coins: coins,
-                ownedBgs: ownedBgs,
-                currentBg: currentBg
-            };
-            localStorage.setItem('codeUsers', JSON.stringify(users));
-            localStorage.setItem('currentUserLogin', currentUser.login);
+    // ========== СОХРАНЕНИЕ ==========
+    function persistAll() {
+        if (!currentUser) return;
+        let all = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
+        all[currentUser.login] = {
+            password: currentUser.password,
+            data: userData
+        };
+        localStorage.setItem('codeMasterDB', JSON.stringify(all));
+        localStorage.setItem('currentSession', currentUser.login);
+    }
+
+    function loadFromStorage(login) {
+        let all = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
+        if (all[login]) {
+            let saved = all[login].data;
+            userData = { ...userData, ...saved };
+            if (!userData.backgrounds) userData.backgrounds = ['bg-default'];
+            if (!userData.tapUpgrade) userData.tapUpgrade = false;
+            document.body.className = userData.activeBg || 'bg-default';
+            updateUI();
+        } else {
+            resetUserData();
         }
     }
 
-    function loadUserData(login) {
-        let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        let data = users[login];
-        if (data) {
-            coins = data.coins || 0;
-            ownedBgs = data.ownedBgs || ['bg-default'];
-            currentBg = data.currentBg || 'bg-default';
-            document.body.className = currentBg;
-            updateUI();
-            return true;
-        }
-        coins = 0;
-        ownedBgs = ['bg-default'];
-        currentBg = 'bg-default';
-        document.body.className = currentBg;
+    function resetUserData() {
+        userData = {
+            nickname: currentUser?.nickname || "coder",
+            coins: 100,
+            level: 1,
+            xp: 0,
+            tapUpgrade: false,
+            backgrounds: ['bg-default'],
+            activeBg: 'bg-default',
+            mode: 'code',
+            combo: 0
+        };
+        document.body.className = 'bg-default';
         updateUI();
-        return false;
     }
 
     function updateUI() {
-        document.getElementById('coinAmount').innerText = coins;
-        document.getElementById('comboDisplay').innerHTML = `🔥 Комбо: ${combo}`;
-        if (currentUser) document.getElementById('nicknameDisplay').innerText = currentUser.nickname;
+        if (!currentUser) return;
+        document.getElementById('coinAmount').innerText = userData.coins;
+        document.getElementById('userLevel').innerText = userData.level;
+        document.getElementById('comboValue').innerText = userData.combo;
+        document.getElementById('nicknameShow').innerText = userData.nickname;
+        document.getElementById('activeModeName').innerText = (userData.mode === 'code') ? 'Кодинг' : 'Настя-тапалка';
+        let tapPriceSpan = document.getElementById('tapUpgradePrice');
+        if (tapPriceSpan) tapPriceSpan.innerText = userData.tapUpgrade ? "КУПЛЕНО" : "2000";
+        // Визуал режимов
+        if (userData.mode === 'code') {
+            document.getElementById('modeCodeBtn').classList.add('mode-active');
+            document.getElementById('modeTapBtn').classList.remove('mode-active');
+            document.getElementById('mainActionBtn').innerHTML = '📝 НАПИСАТЬ КОД';
+        } else {
+            document.getElementById('modeTapBtn').classList.add('mode-active');
+            document.getElementById('modeCodeBtn').classList.remove('mode-active');
+            document.getElementById('mainActionBtn').innerHTML = '🍟 ТЫКНУТЬ КАРТОШКУ НАСТЮ';
+        }
+        persistAll();
     }
 
-    function register() {
-        let nickname = document.getElementById('regUsername').value.trim();
+    function addLog(msg, isError = false, codeSnippet = "") {
+        let logDiv = document.getElementById('eventLog');
+        let line = document.createElement('div');
+        line.className = 'log-line';
+        line.style.borderColor = isError ? '#e74c3c' : '#2ecc71';
+        line.innerHTML = `${isError ? '❌' : '✅'} ${msg} ${codeSnippet ? `<code>${codeSnippet}</code>` : ''}`;
+        logDiv.appendChild(line);
+        line.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        while (logDiv.children.length > 45) logDiv.removeChild(logDiv.firstChild);
+    }
+
+    function floatingText(text, isGood = true) {
+        let div = document.createElement('div');
+        div.className = 'floating-money';
+        div.innerText = text;
+        div.style.color = isGood ? '#f9c74f' : '#f9844a';
+        div.style.left = (window.innerWidth / 2 - 40) + 'px';
+        div.style.bottom = '100px';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 800);
+    }
+
+    // ========== СИСТЕМА УРОВНЕЙ (ПРОДОЛЖИ КОД) ==========
+    function getRandomChallenge() {
+        let idx = Math.floor(Math.random() * levelChallenges.length);
+        return { ...levelChallenges[idx] };
+    }
+
+    async function handleCodeMode() {
+        if (cooldown) { addLog("Подожди, ещё не готово...", true); return; }
+        // Если активен челлендж "дописать код"
+        if (pendingCodeChallenge) {
+            let answer = prompt(pendingCodeChallenge.q + "\n\nВпиши недостающую часть (одно слово/символ):");
+            if (!answer) return;
+            if (answer.trim().toLowerCase() === pendingCodeChallenge.correct.toLowerCase()) {
+                let reward = 80 + userData.level * 5;
+                userData.coins += reward;
+                userData.xp += 25;
+                addLog(`✅ Ты дополнил код! +${reward} монет.`, false, pendingCodeChallenge.q);
+                floatingText(`+${reward}💰`, true);
+                checkLevelUp();
+                pendingCodeChallenge = null;
+                userData.combo += 1;
+                updateUI();
+            } else {
+                addLog(`❌ Ошибка! Правильно: ${pendingCodeChallenge.correct}. Комбо сброшено.`, true);
+                userData.combo = 0;
+                pendingCodeChallenge = null;
+                updateUI();
+            }
+            cooldown = true;
+            setTimeout(() => { cooldown = false; }, 700);
+            return;
+        }
+
+        // Обычная тапалка кода
+        cooldown = true;
+        let char = document.getElementById('gameChar');
+        char.classList.add('typing-anim');
+        setTimeout(() => char.classList.remove('typing-anim'), 250);
+        
+        let successChance = 0.6 + (userData.combo * 0.03);
+        successChance = Math.min(successChance, 0.85);
+        let isSuccess = Math.random() < successChance;
+        
+        if (isSuccess) {
+            let earn = 40 + Math.floor(userData.combo / 2) * 5;
+            userData.coins += earn;
+            userData.xp += 12;
+            userData.combo++;
+            addLog(`✔️ Код выполнен! +${earn} монет. Комбо: ${userData.combo}`, false, "print('success')");
+            floatingText(`+${earn}💰`, true);
+            checkLevelUp();
+        } else {
+            userData.combo = 0;
+            addLog(`🐞 Ошибка в коде! Комбо сброшено.`, true, "SyntaxError");
+            floatingText(`-${userData.combo} комбо`, false);
+        }
+        // Рандомный вызов "продолжи код" (15% шанс, если уровень > 1)
+        if (!pendingCodeChallenge && userData.level >= 2 && Math.random() < 0.2) {
+            pendingCodeChallenge = getRandomChallenge();
+            addLog(`📚 ЗАДАНИЕ: ${pendingCodeChallenge.q}`, false);
+        }
+        updateUI();
+        setTimeout(() => { cooldown = false; }, 450);
+    }
+
+    async function handleTapMode() {
+        if (!userData.tapUpgrade) {
+            addLog("🍟 Ты ещё не купил Настю-тапалку! Стоимость 2000 монет в магазине.", true);
+            return;
+        }
+        if (cooldown) return;
+        cooldown = true;
+        let char = document.getElementById('gameChar');
+        char.style.transform = "scale(0.95)";
+        setTimeout(() => char.style.transform = "", 100);
+        
+        let tapReward = 100;
+        userData.coins += tapReward;
+        addLog(`🍟 Тыкнул картошку Настю! +100 монет`, false, "💥 НЯМ");
+        floatingText(`+100💰`, true);
+        userData.combo = Math.min(userData.combo + 1, 15);
+        updateUI();
+        setTimeout(() => { cooldown = false; }, 280);
+    }
+
+    function handleMainAction() {
+        if (userData.mode === 'code') handleCodeMode();
+        else handleTapMode();
+    }
+
+    function setMode(mode) {
+        userData.mode = mode;
+        pendingCodeChallenge = null;
+        updateUI();
+        addLog(`🔁 Переключился на режим: ${mode === 'code' ? 'Кодинг' : 'Настя-тапалка'}`, false);
+    }
+
+    function checkLevelUp() {
+        let needXP = userData.level * 80;
+        while (userData.xp >= needXP) {
+            userData.xp -= needXP;
+            userData.level++;
+            addLog(`⭐ ПОВЫШЕНИЕ УРОВНЯ! Теперь ${userData.level} уровень!`, false);
+            needXP = userData.level * 80;
+        }
+        updateUI();
+    }
+
+    function buyUpgrade(upgrade) {
+        if (upgrade === 'tapUpgrade') {
+            if (userData.tapUpgrade) { addLog("Настя-тапалка уже куплена!", true); return; }
+            if (userData.coins >= 2000) {
+                userData.coins -= 2000;
+                userData.tapUpgrade = true;
+                addLog("🎉 Куплена Настя-тапалка! Теперь можешь тыкать картошку за 100 монет.", false);
+                updateUI();
+            } else {
+                addLog(`Не хватает монет! Нужно 2000💰`, true);
+            }
+        }
+    }
+
+    function buyBackgroundItem(bgClass) {
+        let price = 50;
+        if (userData.backgrounds.includes(bgClass)) {
+            userData.activeBg = bgClass;
+            document.body.className = bgClass;
+            addLog(`🎨 Фон активирован!`, false);
+            persistAll();
+            return;
+        }
+        if (userData.coins >= price) {
+            userData.coins -= price;
+            userData.backgrounds.push(bgClass);
+            userData.activeBg = bgClass;
+            document.body.className = bgClass;
+            addLog(`✨ Куплен новый фон!`, false);
+            updateUI();
+        } else {
+            addLog(`Не хватает ${price} монет`, true);
+        }
+    }
+
+    function toggleShopMenu() {
+        let menu = document.getElementById('shopMenu');
+        menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
+    }
+
+    // ========== АВТОРИЗАЦИЯ ==========
+    function registerUser() {
+        let nick = document.getElementById('regUsername').value.trim();
         let login = document.getElementById('regLogin').value.trim();
-        let password = document.getElementById('regPassword').value.trim();
-        if (!nickname || !login || !password) return alert('Заполните все поля!');
-        let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        if (users[login]) return alert('Логин уже занят');
-        let tgConfirmed = confirm("Вы подписались на Telegram канал @hioly3? Нажмите ОК для подтверждения.");
-        if (!tgConfirmed) return alert("Подпишитесь на канал: https://t.me/hioly3");
-        currentUser = { login, password, nickname };
-        users[login] = { password, nickname, coins: 0, ownedBgs: ['bg-default'], currentBg: 'bg-default' };
-        localStorage.setItem('codeUsers', JSON.stringify(users));
-        localStorage.setItem('currentUserLogin', login);
-        loadUserData(login);
-        showGame();
-    }
-
-    function login() {
-        let login = document.getElementById('loginLogin').value.trim();
-        let password = document.getElementById('loginPassword').value.trim();
-        let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        if (!users[login] || users[login].password !== password) return alert('Неверный логин или пароль');
-        currentUser = { login, password, nickname: users[login].nickname };
-        localStorage.setItem('currentUserLogin', login);
-        loadUserData(login);
-        showGame();
-    }
-
-    function logout() {
-        localStorage.removeItem('currentUserLogin');
-        currentUser = null;
-        document.getElementById('gameScreen').style.display = 'none';
-        document.getElementById('authScreen').style.display = 'block';
-        combo = 0;
-    }
-
-    function showGame() {
+        let pass = document.getElementById('regPassword').value.trim();
+        if (!nick || !login || !pass) return alert("Заполни все поля");
+        let db = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
+        if (db[login]) return alert("Логин уже есть");
+        currentUser = { login: login, password: pass, nickname: nick };
+        userData.nickname = nick;
+        resetUserData();
+        persistAll();
         document.getElementById('authScreen').style.display = 'none';
         document.getElementById('gameScreen').style.display = 'block';
         updateUI();
-        addLogEntry(true, '', `Добро пожаловать, ${currentUser.nickname}! Баланс: ${coins} монет.`);
+        addLog("Добро пожаловать! Кодируй или купи тапалку за 2000💰", false);
     }
-
-    function addLogEntry(isSuccess, code, msg) {
-        let logDiv = document.getElementById('gameLog');
-        let entry = document.createElement('div');
-        entry.className = `log-entry ${isSuccess ? 'log-success' : 'log-fail'}`;
-        let icon = isSuccess ? '✅' : '❌';
-        let codeHtml = code ? `<span class="code-snippet">${escapeHtml(code)}</span>` : '';
-        entry.innerHTML = `<span>${icon}</span> ${codeHtml} <span>${escapeHtml(msg)}</span>`;
-        logDiv.appendChild(entry);
-        entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
-    }
-
-    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
-    function showFloatingEffect(text, isPositive) {
-        let effect = document.createElement('div');
-        effect.className = 'floating-effect';
-        effect.innerText = text;
-        effect.style.color = isPositive ? '#2ecc71' : '#e74c3c';
-        effect.style.left = (window.innerWidth/2 - 40) + 'px';
-        effect.style.bottom = '120px';
-        document.body.appendChild(effect);
-        setTimeout(() => effect.remove(), 1000);
-    }
-
-    function showComboPopup(comboCount) {
-        if (comboCount >= 2) {
-            let pop = document.createElement('div');
-            pop.className = 'combo-popup';
-            pop.innerText = `✨ КОМБО x${comboCount} ! ✨`;
-            document.body.appendChild(pop);
-            setTimeout(() => pop.remove(), 600);
-        }
-    }
-
-    async function doCode() {
-        if (isCooldown || !currentUser) return;
-        isCooldown = true;
-        let btn = document.getElementById('codeGameBtn');
-        btn.disabled = true;
-        let char = document.getElementById('gameCharacter');
-        char.classList.add('typing');
-        await new Promise(r => setTimeout(r, 150));
-        
-        let successChance = 0.65 + (combo * 0.035);
-        successChance = Math.min(successChance, 0.92);
-        let isSuccess = Math.random() < successChance;
-        let codeItem;
-        if (isSuccess) {
-            codeItem = successCodes[Math.floor(Math.random() * successCodes.length)];
-            let earned = 50 + Math.floor(combo / 3) * 5;
-            coins += earned;
-            combo++;
-            addLogEntry(true, codeItem.text, `${codeItem.msg} +${earned} монет! Комбо: ${combo}`);
-            showFloatingEffect(`+${earned}💰`, true);
-            if (combo >= 2) showComboPopup(combo);
-        } else {
-            codeItem = failCodes[Math.floor(Math.random() * failCodes.length)];
-            addLogEntry(false, codeItem.text, `${codeItem.msg} Комбо сброшено!`);
-            showFloatingEffect(`-${combo} комбо`, false);
-            combo = 0;
-        }
+    function loginUser() {
+        let login = document.getElementById('loginLogin').value.trim();
+        let pass = document.getElementById('loginPassword').value.trim();
+        let db = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
+        if (!db[login] || db[login].password !== pass) return alert("Неверный логин/пароль");
+        currentUser = { login: login, password: pass, nickname: db[login].data.nickname };
+        loadFromStorage(login);
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('gameScreen').style.display = 'block';
         updateUI();
-        saveUserData();
-        
-        char.classList.remove('typing');
-        setTimeout(() => {
-            isCooldown = false;
-            btn.disabled = false;
-        }, 350);
+        addLog(`С возвращением, ${userData.nickname}!`, false);
     }
-
-    function toggleShop() {
-        let panel = document.getElementById('shopPanel');
-        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function buyBackground(bgClass, bgName) {
-        if (ownedBgs.includes(bgClass)) {
-            currentBg = bgClass;
-            document.body.className = currentBg;
-            saveUserData();
-            addLogEntry(true, '', `Фон "${bgName}" применён!`);
-        } else if (coins >= 50) {
-            coins -= 50;
-            ownedBgs.push(bgClass);
-            currentBg = bgClass;
-            document.body.className = currentBg;
-            saveUserData();
-            updateUI();
-            addLogEntry(true, '', `🎨 Куплен фон "${bgName}"! -50 монет`);
-            showFloatingEffect('-50💰', true);
-        } else {
-            addLogEntry(false, '', `Не хватает монет для фона "${bgName}" (нужно 50)`);
-        }
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.code === 'KeyR' && currentUser && document.getElementById('gameScreen').style.display !== 'none' && !isCooldown) {
-            e.preventDefault();
-            doCode();
-        }
-    });
-
-    let savedLogin = localStorage.getItem('currentUserLogin');
+    
+    // Инициализация сессии
+    let savedLogin = localStorage.getItem('currentSession');
     if (savedLogin) {
-        let users = JSON.parse(localStorage.getItem('codeUsers') || '{}');
-        if (users[savedLogin]) {
-            currentUser = { login: savedLogin, password: users[savedLogin].password, nickname: users[savedLogin].nickname };
-            loadUserData(savedLogin);
-            showGame();
-        } else localStorage.removeItem('currentUserLogin');
+        let db = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
+        if (db[savedLogin]) {
+            currentUser = { login: savedLogin, password: db[savedLogin].password };
+            loadFromStorage(savedLogin);
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            updateUI();
+        } else localStorage.removeItem('currentSession');
     }
 </script>
 </body>
