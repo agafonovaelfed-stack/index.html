@@ -3,611 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>КодМастер — Прокачай свой код</title>
+    <title>Настя-тапалка</title>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             min-height: 100vh;
-            font-family: 'Segoe UI', 'Courier New', monospace;
-            background: radial-gradient(circle at 20% 30%, #0a0f1f, #03060c);
-            transition: background 0.3s;
+            background: linear-gradient(145deg, #ff9a3c, #ff6b35);
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
             overflow-x: hidden;
         }
 
-        /* Динамические фоны */
-        body.bg-default { background: radial-gradient(circle at 20% 30%, #0a0f1f, #03060c); }
-        body.bg-desert { background: linear-gradient(145deg, #c94b4b, #4a1e1e); }
-        body.bg-classroom { background: linear-gradient(145deg, #1e3c4a, #0f2c3a); }
-        body.bg-space { background: radial-gradient(circle at 10% 20%, #0b1120, #010101); }
-        body.bg-cyber { background: linear-gradient(45deg, #0d0221, #1a0933); }
-
-        .glass-panel {
-            background: rgba(10, 15, 30, 0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            border: 1px solid rgba(46, 204, 113, 0.4);
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
-            transition: all 0.2s;
-        }
-
         .game-container {
-            min-height: 100vh;
-            padding: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .game {
-            max-width: 650px;
+            max-width: 450px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(8, 12, 25, 0.85);
+        }
+
+        /* Карточка игры */
+        .game-card {
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            padding: 1.5rem;
-            border: 1px solid rgba(46, 204, 113, 0.5);
-            box-shadow: 0 25px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Аутентификация */
-        .auth-screen {
+            border-radius: 48px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
             text-align: center;
-            padding: 1rem;
-        }
-        .auth-screen h2 {
-            background: linear-gradient(135deg, #2ecc71, #f1c40f);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-size: 2rem;
-            margin-bottom: 1.2rem;
-        }
-        .auth-input {
-            width: 100%;
-            padding: 0.9rem;
-            margin: 0.6rem 0;
-            border-radius: 2rem;
-            border: none;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            font-size: 1rem;
-        }
-        .auth-btn {
-            background: linear-gradient(95deg, #2ecc71, #27ae60);
-            border: none;
-            padding: 0.8rem 1.8rem;
-            border-radius: 3rem;
-            font-weight: bold;
-            color: white;
-            margin: 0.5rem;
-            cursor: pointer;
-            transition: 0.1s linear;
-        }
-        .tg-link-btn {
-            background: #1da1f2;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.7rem 1.5rem;
-            border-radius: 3rem;
-            color: white;
-            text-decoration: none;
-            margin: 1rem 0;
-            font-weight: bold;
+            border: 2px solid rgba(255,215,0,0.5);
         }
 
-        /* Верхняя панель */
-        .stats-bar {
+        /* Статистика */
+        .stats {
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-bottom: 1.2rem;
-            background: rgba(0,0,0,0.5);
-            padding: 0.8rem 1.2rem;
-            border-radius: 3rem;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 12px 20px;
+            background: #fff0e0;
+            border-radius: 60px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
         }
-        .stat-chip {
-            background: #00000066;
-            padding: 0.3rem 1rem;
-            border-radius: 2rem;
+        .coins {
+            font-size: 24px;
             font-weight: bold;
+            color: #ff8c00;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
-        .coins-gold { color: #f9c74f; }
-        .level-text { color: #bb86fc; }
-        .combo-fire { color: #ff9f4a; }
+        .coins span:first-child { font-size: 28px; }
+        .combo {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e67e22;
+            background: #ffe0b5;
+            padding: 6px 14px;
+            border-radius: 40px;
+        }
+        .best {
+            font-size: 14px;
+            background: #ffd966;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
 
-        /* Главный герой */
-        .character-zone {
-            text-align: center;
-            margin: 1rem 0;
+        /* Настя (картошка) */
+        .tap-area {
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.05s linear;
+        }
+        .tap-area:active {
+            transform: scale(0.96);
         }
         .character {
-            font-size: 6rem;
-            filter: drop-shadow(0 8px 12px black);
-            transition: 0.05s linear;
-        }
-        .typing-anim {
-            animation: hammer 0.1s infinite;
-        }
-        @keyframes hammer {
-            0% { transform: translate(0,0);}
-            25% { transform: translate(2px,-2px) rotate(2deg);}
-            75% { transform: translate(-2px,1px) rotate(-1deg);}
-        }
-
-        /* Режимы */
-        .mode-switch {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        .mode-btn {
-            flex: 1;
-            text-align: center;
-            padding: 0.7rem;
-            border-radius: 3rem;
-            background: #1e2a3a;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.1s;
-        }
-        .mode-active {
-            background: #2ecc71;
-            color: black;
-            box-shadow: 0 0 8px #2ecc71;
-        }
-        .code-btn, .tap-btn {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1.4rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 3rem;
-            margin: 0.8rem 0;
-            cursor: pointer;
+            font-size: 180px;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3));
             transition: 0.07s linear;
         }
-        .code-btn { background: linear-gradient(95deg, #2ecc71, #27ae60); color: white; }
-        .tap-btn { background: linear-gradient(95deg, #f39c12, #e67e22); color: white; }
+        .character.tapped {
+            animation: bounce 0.2s ease;
+        }
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
 
-        /* Лог событий */
-        .event-log {
-            background: rgba(0,0,0,0.7);
-            border-radius: 1.5rem;
-            padding: 1rem;
-            height: 200px;
-            overflow-y: auto;
-            font-size: 0.8rem;
-            font-family: monospace;
-            margin-top: 1rem;
-        }
-        .log-line {
-            padding: 0.3rem;
-            border-left: 3px solid;
-            margin: 0.3rem 0;
-            border-radius: 0.8rem;
-        }
-        .shop-grid {
-            display: none;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.7rem;
-            margin-top: 1rem;
-        }
-        .shop-card {
-            background: rgba(0,0,0,0.6);
-            border-radius: 1.2rem;
-            padding: 0.7rem;
-            text-align: center;
-            cursor: pointer;
-        }
-        .footer-tg {
-            text-align: center;
-            margin-top: 1.2rem;
-            font-size: 0.8rem;
-        }
-        .tg-icon {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #1e2a3a;
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
-            color: white;
-            text-decoration: none;
+        .tap-button {
+            background: linear-gradient(135deg, #ffaa44, #ff8800);
+            border: none;
+            width: 100%;
+            padding: 20px;
+            font-size: 28px;
             font-weight: bold;
+            border-radius: 80px;
+            color: white;
+            cursor: pointer;
+            margin: 15px 0;
+            box-shadow: 0 8px 0 #cc6600;
+            transition: 0.05s linear;
+            font-family: inherit;
         }
-        button:active { transform: scale(0.97); }
-        .floating-money {
+        .tap-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #cc6600;
+        }
+
+        /* Анимация +монет */
+        .floating {
             position: fixed;
             pointer-events: none;
-            font-size: 1.6rem;
+            font-size: 28px;
             font-weight: bold;
-            z-index: 999;
-            animation: flyUp 0.9s ease-out forwards;
+            color: #ffcc00;
+            text-shadow: 0 0 5px #ff6600;
+            z-index: 1000;
+            animation: floatUp 0.8s ease-out forwards;
         }
-        @keyframes flyUp {
-            0% { opacity: 1; transform: translateY(0px);}
-            100% { opacity: 0; transform: translateY(-70px);}
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(0.7); }
+            100% { opacity: 0; transform: translateY(-100px) scale(1.2); }
+        }
+
+        .leaderboard {
+            margin-top: 20px;
+            background: #fff5e8;
+            border-radius: 32px;
+            padding: 15px;
+            font-size: 14px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .leader-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #b45f1b;
+        }
+        .leader-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+            border-bottom: 1px solid #ffd9a5;
+        }
+        .user-tg {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            font-size: 12px;
+            background: #e6e6fa;
+            padding: 8px;
+            border-radius: 30px;
+            justify-content: center;
+        }
+        button {
+            background: #2ecc71;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
-<div class="game-container" id="app">
-    <!-- АВТОРИЗАЦИЯ -->
-    <div id="authScreen" class="game">
-        <div class="auth-screen">
-            <h2>🐍 КОД МАСТЕР</h2>
-            <p>🎮 Прокачай навык Python</p>
-            <a href="https://t.me/hioly3" target="_blank" class="tg-link-btn">📱 Подпишись на Telegram</a>
-            <input type="text" id="regUsername" class="auth-input" placeholder="👤 Никнейм">
-            <input type="text" id="regLogin" class="auth-input" placeholder="🔐 Логин">
-            <input type="password" id="regPassword" class="auth-input" placeholder="🔒 Пароль">
-            <button class="auth-btn" onclick="registerUser()">✨ Создать аккаунт</button>
-            <hr style="margin: 1rem; opacity:0.3">
-            <input type="text" id="loginLogin" class="auth-input" placeholder="🔐 Логин">
-            <input type="password" id="loginPassword" class="auth-input" placeholder="🔒 Пароль">
-            <button class="auth-btn" onclick="loginUser()">🚀 Вход</button>
-            <div class="footer-tg">
-                <span style="color:#aaa">владелец: @uglyctephan</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ОСНОВНАЯ ИГРА -->
-    <div id="gameScreen" style="display: none;" class="game">
-        <div class="stats-bar">
-            <div class="stat-chip">💰 <span id="coinAmount" class="coins-gold">0</span></div>
-            <div class="stat-chip">⭐ Уровень <span id="userLevel">1</span></div>
-            <div class="stat-chip">🔥 <span id="comboValue">0</span> комбо</div>
-            <div class="stat-chip">👤 <span id="nicknameShow"></span></div>
+<div class="game-container">
+    <div class="game-card">
+        <div class="stats">
+            <div class="coins">🍟 <span id="coinCounter">0</span></div>
+            <div class="combo">🔥 <span id="comboCount">0</span></div>
+            <div class="best">🏆 <span id="bestScore">0</span></div>
         </div>
 
-        <div class="character-zone">
-            <div class="character" id="gameChar">🧑‍💻</div>
-            <div style="font-size:12px; margin-top:5px;">⚡ Режим: <span id="activeModeName">Кодинг</span></div>
+        <div class="tap-area" id="tapZone">
+            <div class="character" id="nastyaChar">🍟🥔</div>
         </div>
 
-        <div class="mode-switch">
-            <div class="mode-btn" id="modeCodeBtn" onclick="setMode('code')">💻 КОДИНГ</div>
-            <div class="mode-btn" id="modeTapBtn" onclick="setMode('tap')">🍟 НАСТЯ-ТАПАЛКА</div>
+        <button class="tap-button" id="tapBtn">ТЫКНУТЬ НАСТЮ</button>
+
+        <div class="leaderboard">
+            <div class="leader-title">⭐ ТОП ТАПЕРОВ ⭐</div>
+            <div id="leaderList">Загрузка...</div>
         </div>
 
-        <!-- Кнопка действия -->
-        <div id="codeActionArea">
-            <button class="code-btn" id="mainActionBtn" onclick="handleMainAction()">📝 ПИСАТЬ КОД</button>
+        <div class="user-tg">
+            <span>👤 <span id="userName">Гость</span></span>
+            <span>📊 <span id="userScore">0</span> монет</span>
         </div>
-
-        <!-- Магазин / улучшения -->
-        <div class="shop-card" onclick="toggleShopMenu()" style="background:#2c3e66;">🛒 МАГАЗИН УЛУЧШЕНИЙ ▼</div>
-        <div id="shopMenu" style="display: none;" class="shop-grid">
-            <div class="shop-card" onclick="buyUpgrade('tapUpgrade')">🍟 Настя-тапалка<br><span id="tapUpgradePrice">2000</span>💰</div>
-            <div class="shop-card" onclick="buyBackgroundItem('bg-desert')">🏜️ Пустыня 50💰</div>
-            <div class="shop-card" onclick="buyBackgroundItem('bg-classroom')">🏫 Кабинет 50💰</div>
-            <div class="shop-card" onclick="buyBackgroundItem('bg-space')">🚀 Космос 50💰</div>
-            <div class="shop-card" onclick="buyBackgroundItem('bg-cyber')">💀 Киберпанк 50💰</div>
-        </div>
-
-        <!-- Лог событий (код / тапалка) -->
-        <div class="event-log" id="eventLog">
-            <div class="log-line" style="border-color:#2ecc71;">✨ Добро пожаловать! Пиши код или тапай картошку.</div>
-        </div>
-        <div class="footer-tg">
-            <a href="https://t.me/hioly3" target="_blank" class="tg-icon">📢 Telegram канал: @hioly3</a>
-        </div>
+        <button id="resetBtn" style="background:#e67e22;">🔄 Сброс статистики</button>
     </div>
 </div>
 
 <script>
-    // ========== ГЛОБАЛЬНЫЕ ДАННЫЕ ==========
-    let currentUser = null;
-    let userData = {
-        nickname: "",
-        coins: 100,
-        level: 1,
-        xp: 0,
-        tapUpgrade: false,      // куплена ли настя-тапалка
-        backgrounds: ['bg-default'],
-        activeBg: 'bg-default',
-        mode: 'code',            // 'code' или 'tap'
-        combo: 0
-    };
+    // Инициализация Telegram WebApp
+    let tg = window.Telegram.WebApp;
+    tg.expand(); // Растягиваем на весь экран
+    tg.enableClosingConfirmation(); // Подтверждение при закрытии
+    tg.MainButton.hide();
+
+    // Данные пользователя из Telegram
+    let user = tg.initDataUnsafe?.user;
+    let userId = user?.id || 'guest_' + Math.random();
+    let userName = user?.first_name || (user?.username ? '@'+user.username : 'Тапер');
     
+    document.getElementById('userName').innerText = userName;
+
+    // Игровая статистика
+    let coins = 0;
+    let combo = 0;
+    let bestCombo = 0;
     let cooldown = false;
-    let pendingCodeChallenge = null;   // система уровней: { question, correctAnswer, reward }
-    let levelChallenges = [
-        { q: "Заверши код: print('Привет, ___')", correct: "мир", hint: "мир" },
-        { q: "Допиши условие: if x ___ 10: print('больше')", correct: ">", hint: ">" },
-        { q: "for i in range(___): print(i)", correct: "5", hint: "5" },
-        { q: "def func(): return ___", correct: "None", hint: "None" }
-    ];
 
-    // ========== СОХРАНЕНИЕ ==========
-    function persistAll() {
-        if (!currentUser) return;
-        let all = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
-        all[currentUser.login] = {
-            password: currentUser.password,
-            data: userData
-        };
-        localStorage.setItem('codeMasterDB', JSON.stringify(all));
-        localStorage.setItem('currentSession', currentUser.login);
-    }
-
-    function loadFromStorage(login) {
-        let all = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
-        if (all[login]) {
-            let saved = all[login].data;
-            userData = { ...userData, ...saved };
-            if (!userData.backgrounds) userData.backgrounds = ['bg-default'];
-            if (!userData.tapUpgrade) userData.tapUpgrade = false;
-            document.body.className = userData.activeBg || 'bg-default';
-            updateUI();
+    // Загрузка сохранённых данных из localStorage (по userId)
+    function loadStats() {
+        let key = `tap_nastya_${userId}`;
+        let saved = localStorage.getItem(key);
+        if (saved) {
+            let data = JSON.parse(saved);
+            coins = data.coins || 0;
+            bestCombo = data.bestCombo || 0;
         } else {
-            resetUserData();
+            coins = 0;
+            bestCombo = 0;
         }
-    }
-
-    function resetUserData() {
-        userData = {
-            nickname: currentUser?.nickname || "coder",
-            coins: 100,
-            level: 1,
-            xp: 0,
-            tapUpgrade: false,
-            backgrounds: ['bg-default'],
-            activeBg: 'bg-default',
-            mode: 'code',
-            combo: 0
-        };
-        document.body.className = 'bg-default';
+        combo = 0;
         updateUI();
     }
 
+    function saveStats() {
+        let key = `tap_nastya_${userId}`;
+        localStorage.setItem(key, JSON.stringify({
+            coins: coins,
+            bestCombo: bestCombo,
+            userName: userName
+        }));
+    }
+
     function updateUI() {
-        if (!currentUser) return;
-        document.getElementById('coinAmount').innerText = userData.coins;
-        document.getElementById('userLevel').innerText = userData.level;
-        document.getElementById('comboValue').innerText = userData.combo;
-        document.getElementById('nicknameShow').innerText = userData.nickname;
-        document.getElementById('activeModeName').innerText = (userData.mode === 'code') ? 'Кодинг' : 'Настя-тапалка';
-        let tapPriceSpan = document.getElementById('tapUpgradePrice');
-        if (tapPriceSpan) tapPriceSpan.innerText = userData.tapUpgrade ? "КУПЛЕНО" : "2000";
-        // Визуал режимов
-        if (userData.mode === 'code') {
-            document.getElementById('modeCodeBtn').classList.add('mode-active');
-            document.getElementById('modeTapBtn').classList.remove('mode-active');
-            document.getElementById('mainActionBtn').innerHTML = '📝 НАПИСАТЬ КОД';
-        } else {
-            document.getElementById('modeTapBtn').classList.add('mode-active');
-            document.getElementById('modeCodeBtn').classList.remove('mode-active');
-            document.getElementById('mainActionBtn').innerHTML = '🍟 ТЫКНУТЬ КАРТОШКУ НАСТЮ';
-        }
-        persistAll();
+        document.getElementById('coinCounter').innerText = coins;
+        document.getElementById('comboCount').innerText = combo;
+        document.getElementById('bestScore').innerText = bestCombo;
+        document.getElementById('userScore').innerText = coins;
+        saveStats();
+        updateLeaderboard();
     }
 
-    function addLog(msg, isError = false, codeSnippet = "") {
-        let logDiv = document.getElementById('eventLog');
-        let line = document.createElement('div');
-        line.className = 'log-line';
-        line.style.borderColor = isError ? '#e74c3c' : '#2ecc71';
-        line.innerHTML = `${isError ? '❌' : '✅'} ${msg} ${codeSnippet ? `<code>${codeSnippet}</code>` : ''}`;
-        logDiv.appendChild(line);
-        line.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        while (logDiv.children.length > 45) logDiv.removeChild(logDiv.firstChild);
-    }
-
-    function floatingText(text, isGood = true) {
+    // Анимация всплывающей монеты
+    function showFloatingCoin(x, y, value) {
         let div = document.createElement('div');
-        div.className = 'floating-money';
-        div.innerText = text;
-        div.style.color = isGood ? '#f9c74f' : '#f9844a';
-        div.style.left = (window.innerWidth / 2 - 40) + 'px';
-        div.style.bottom = '100px';
+        div.className = 'floating';
+        div.innerText = `+${value}💰`;
+        div.style.left = (x - 30) + 'px';
+        div.style.top = (y - 60) + 'px';
         document.body.appendChild(div);
         setTimeout(() => div.remove(), 800);
     }
 
-    // ========== СИСТЕМА УРОВНЕЙ (ПРОДОЛЖИ КОД) ==========
-    function getRandomChallenge() {
-        let idx = Math.floor(Math.random() * levelChallenges.length);
-        return { ...levelChallenges[idx] };
-    }
-
-    async function handleCodeMode() {
-        if (cooldown) { addLog("Подожди, ещё не готово...", true); return; }
-        // Если активен челлендж "дописать код"
-        if (pendingCodeChallenge) {
-            let answer = prompt(pendingCodeChallenge.q + "\n\nВпиши недостающую часть (одно слово/символ):");
-            if (!answer) return;
-            if (answer.trim().toLowerCase() === pendingCodeChallenge.correct.toLowerCase()) {
-                let reward = 80 + userData.level * 5;
-                userData.coins += reward;
-                userData.xp += 25;
-                addLog(`✅ Ты дополнил код! +${reward} монет.`, false, pendingCodeChallenge.q);
-                floatingText(`+${reward}💰`, true);
-                checkLevelUp();
-                pendingCodeChallenge = null;
-                userData.combo += 1;
-                updateUI();
-            } else {
-                addLog(`❌ Ошибка! Правильно: ${pendingCodeChallenge.correct}. Комбо сброшено.`, true);
-                userData.combo = 0;
-                pendingCodeChallenge = null;
-                updateUI();
-            }
-            cooldown = true;
-            setTimeout(() => { cooldown = false; }, 700);
-            return;
-        }
-
-        // Обычная тапалка кода
-        cooldown = true;
-        let char = document.getElementById('gameChar');
-        char.classList.add('typing-anim');
-        setTimeout(() => char.classList.remove('typing-anim'), 250);
-        
-        let successChance = 0.6 + (userData.combo * 0.03);
-        successChance = Math.min(successChance, 0.85);
-        let isSuccess = Math.random() < successChance;
-        
-        if (isSuccess) {
-            let earn = 40 + Math.floor(userData.combo / 2) * 5;
-            userData.coins += earn;
-            userData.xp += 12;
-            userData.combo++;
-            addLog(`✔️ Код выполнен! +${earn} монет. Комбо: ${userData.combo}`, false, "print('success')");
-            floatingText(`+${earn}💰`, true);
-            checkLevelUp();
-        } else {
-            userData.combo = 0;
-            addLog(`🐞 Ошибка в коде! Комбо сброшено.`, true, "SyntaxError");
-            floatingText(`-${userData.combo} комбо`, false);
-        }
-        // Рандомный вызов "продолжи код" (15% шанс, если уровень > 1)
-        if (!pendingCodeChallenge && userData.level >= 2 && Math.random() < 0.2) {
-            pendingCodeChallenge = getRandomChallenge();
-            addLog(`📚 ЗАДАНИЕ: ${pendingCodeChallenge.q}`, false);
-        }
-        updateUI();
-        setTimeout(() => { cooldown = false; }, 450);
-    }
-
-    async function handleTapMode() {
-        if (!userData.tapUpgrade) {
-            addLog("🍟 Ты ещё не купил Настю-тапалку! Стоимость 2000 монет в магазине.", true);
-            return;
-        }
+    // Основная функция тапа
+    function tap() {
         if (cooldown) return;
         cooldown = true;
-        let char = document.getElementById('gameChar');
-        char.style.transform = "scale(0.95)";
-        setTimeout(() => char.style.transform = "", 100);
         
-        let tapReward = 100;
-        userData.coins += tapReward;
-        addLog(`🍟 Тыкнул картошку Настю! +100 монет`, false, "💥 НЯМ");
-        floatingText(`+100💰`, true);
-        userData.combo = Math.min(userData.combo + 1, 15);
-        updateUI();
-        setTimeout(() => { cooldown = false; }, 280);
-    }
-
-    function handleMainAction() {
-        if (userData.mode === 'code') handleCodeMode();
-        else handleTapMode();
-    }
-
-    function setMode(mode) {
-        userData.mode = mode;
-        pendingCodeChallenge = null;
-        updateUI();
-        addLog(`🔁 Переключился на режим: ${mode === 'code' ? 'Кодинг' : 'Настя-тапалка'}`, false);
-    }
-
-    function checkLevelUp() {
-        let needXP = userData.level * 80;
-        while (userData.xp >= needXP) {
-            userData.xp -= needXP;
-            userData.level++;
-            addLog(`⭐ ПОВЫШЕНИЕ УРОВНЯ! Теперь ${userData.level} уровень!`, false);
-            needXP = userData.level * 80;
+        // Анимация персонажа
+        let char = document.getElementById('nastyaChar');
+        char.classList.add('tapped');
+        setTimeout(() => char.classList.remove('tapped'), 150);
+        
+        // Начисление монет
+        let earn = 100;
+        coins += earn;
+        combo++;
+        
+        if (combo > bestCombo) {
+            bestCombo = combo;
+            tg.HapticFeedback.notificationOccurred('success'); // вибрация в Telegram
         }
+        
         updateUI();
-    }
-
-    function buyUpgrade(upgrade) {
-        if (upgrade === 'tapUpgrade') {
-            if (userData.tapUpgrade) { addLog("Настя-тапалка уже куплена!", true); return; }
-            if (userData.coins >= 2000) {
-                userData.coins -= 2000;
-                userData.tapUpgrade = true;
-                addLog("🎉 Куплена Настя-тапалка! Теперь можешь тыкать картошку за 100 монет.", false);
-                updateUI();
-            } else {
-                addLog(`Не хватает монет! Нужно 2000💰`, true);
-            }
-        }
-    }
-
-    function buyBackgroundItem(bgClass) {
-        let price = 50;
-        if (userData.backgrounds.includes(bgClass)) {
-            userData.activeBg = bgClass;
-            document.body.className = bgClass;
-            addLog(`🎨 Фон активирован!`, false);
-            persistAll();
-            return;
-        }
-        if (userData.coins >= price) {
-            userData.coins -= price;
-            userData.backgrounds.push(bgClass);
-            userData.activeBg = bgClass;
-            document.body.className = bgClass;
-            addLog(`✨ Куплен новый фон!`, false);
-            updateUI();
-        } else {
-            addLog(`Не хватает ${price} монет`, true);
-        }
-    }
-
-    function toggleShopMenu() {
-        let menu = document.getElementById('shopMenu');
-        menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
-    }
-
-    // ========== АВТОРИЗАЦИЯ ==========
-    function registerUser() {
-        let nick = document.getElementById('regUsername').value.trim();
-        let login = document.getElementById('regLogin').value.trim();
-        let pass = document.getElementById('regPassword').value.trim();
-        if (!nick || !login || !pass) return alert("Заполни все поля");
-        let db = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
-        if (db[login]) return alert("Логин уже есть");
-        currentUser = { login: login, password: pass, nickname: nick };
-        userData.nickname = nick;
-        resetUserData();
-        persistAll();
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('gameScreen').style.display = 'block';
-        updateUI();
-        addLog("Добро пожаловать! Кодируй или купи тапалку за 2000💰", false);
-    }
-    function loginUser() {
-        let login = document.getElementById('loginLogin').value.trim();
-        let pass = document.getElementById('loginPassword').value.trim();
-        let db = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
-        if (!db[login] || db[login].password !== pass) return alert("Неверный логин/пароль");
-        currentUser = { login: login, password: pass, nickname: db[login].data.nickname };
-        loadFromStorage(login);
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('gameScreen').style.display = 'block';
-        updateUI();
-        addLog(`С возвращением, ${userData.nickname}!`, false);
+        
+        // Визуальный эффект (получаем координаты кнопки)
+        let btn = document.getElementById('tapBtn');
+        let rect = btn.getBoundingClientRect();
+        showFloatingCoin(rect.left + rect.width/2, rect.top, earn);
+        
+        // Вибрация через Telegram Haptic
+        tg.HapticFeedback.impactOccurred('light');
+        
+        setTimeout(() => {
+            cooldown = false;
+        }, 180);
     }
     
-    // Инициализация сессии
-    let savedLogin = localStorage.getItem('currentSession');
-    if (savedLogin) {
-        let db = JSON.parse(localStorage.getItem('codeMasterDB') || '{}');
-        if (db[savedLogin]) {
-            currentUser = { login: savedLogin, password: db[savedLogin].password };
-            loadFromStorage(savedLogin);
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('gameScreen').style.display = 'block';
+    // Сброс (обнуление монет, комбо сбрасывается)
+    function resetGame() {
+        if (confirm('Сбросить все монеты? Статистика будет обнулена.')) {
+            coins = 0;
+            combo = 0;
+            bestCombo = 0;
             updateUI();
-        } else localStorage.removeItem('currentSession');
+            tg.HapticFeedback.notificationOccurred('warning');
+        }
     }
+
+    // Таблица лидеров (на основе всех игроков в localStorage)
+    function updateLeaderboard() {
+        let allPlayers = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            if (key && key.startsWith('tap_nastya_')) {
+                try {
+                    let data = JSON.parse(localStorage.getItem(key));
+                    let name = data.userName || 'Аноним';
+                    let score = data.coins || 0;
+                    allPlayers.push({ name, score });
+                } catch(e) {}
+            }
+        }
+        allPlayers.sort((a,b) => b.score - a.score);
+        let top = allPlayers.slice(0, 8);
+        let leaderDiv = document.getElementById('leaderList');
+        if (top.length === 0) {
+            leaderDiv.innerHTML = 'Пока никого, будь первым!';
+        } else {
+            leaderDiv.innerHTML = top.map(p => `<div class="leader-item"><span>${p.name}</span><span>💰 ${p.score}</span></div>`).join('');
+        }
+    }
+
+    // Привязка событий
+    document.getElementById('tapBtn').addEventListener('click', (e) => {
+        tap();
+    });
+    document.getElementById('tapZone').addEventListener('click', (e) => {
+        tap();
+    });
+    document.getElementById('resetBtn').addEventListener('click', resetGame);
+    
+    // Отправка готовности приложению
+    tg.ready();
+    
+    // Загружаем данные
+    loadStats();
+    
+    // Обновляем таблицу каждые 5 секунд (на случай, если открыто у нескольких)
+    setInterval(() => {
+        if (document.visibilityState === 'visible') updateLeaderboard();
+    }, 5000);
 </script>
 </body>
 </html>
